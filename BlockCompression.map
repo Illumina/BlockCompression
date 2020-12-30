@@ -1,0 +1,17 @@
+VER_1 {
+    global:
+        bgzf_compress;
+        bgzf_decompress;
+        ZSTD_compress;
+        ZSTD_decompress;
+        ZSTD_getDecompressedSize;
+        ZSTD_createCDict;
+        ZSTD_createDDict;
+        ZSTD_createCCtx;
+        ZSTD_createDCtx;
+        ZSTD_compress_usingCDict;
+        ZSTD_decompress_usingDDict;
+        get_library_id;
+    local:
+        *;
+};
