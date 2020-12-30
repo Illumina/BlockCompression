@@ -1,6 +1,14 @@
 # BlockCompression
 Block compression library used by Nirvana
 
+## Cloning
+
+This repo uses git submodules so we can be easily update it when newer compression algorithms are released. As such, just remember to use the `--recursive` flag when cloning:
+
+```
+git clone --recursive https://github.com/Illumina/BlockCompression.git
+```
+
 ## Building on Linux
 
 Just make sure that a basic C/C++ toolchain is installed.
