@@ -31,11 +31,24 @@ make -f Makefile.MinGW -j
 
 The library and benchmark tool will be available in the `bin` output directory.
 
+## Building on macOS (x86)
+
+Make sure the basic Xcode toolchain is installed.
+
+```
+make -f Makefile.macOS_x86
+
+```
+
+The library and benchmark tool will be available in the 'bin' output directory.
+
 ## Target Architecture
 
 By default, we're setting `-march` to `ivybridge` since many of our users had older machines that didn't support AVX. If you're not restricted to that, go ahead and update that setting to `native` or perhaps something more nuanced.
 
 ## Profile-Guided Optimization
+
+### Linux & Windows
 
 In addition, we usually provide profile-optimized guided (PGO) builds of this library in Nirvana. Profile-guided Optimization (PGO) improves application performance by reorganizing code layout to reduce instruction-cache problems, shrinking code size, and reducing branch mispredictions. PGO provides information to the compiler about areas of an application that are most frequently executed. By knowing these areas, the compiler is able to be more selective and specific in optimizing the application.
 
@@ -51,6 +64,36 @@ Once the benchmark has finished, all the interesting data will be stored in the 
 
 ```
 CFLAGS=-O3 -fPIC -fprofile-dir=$(PGO_DIR) -fprofile-use=$(PGO_DIR) -fprofile-correction
+```
+
+We need to get rid of the previous binaries and objects to re-compile the project. Do the following to delete the `bin` and `obj` subdirectories (but not the `pgo` subdirectory) and rebuild:
+
+```
+make clean
+make -j
+```
+
+### macOS
+
+To use PGO, update the `CFLAGS` variable to include the following:
+
+```
+CFLAGS=-O3 -fPIC -fprofile-instr-generate=$(PGO_DIR)/BlockCompression.profraw
+```
+
+Compile the program and use the RunBenchmark tool on a sample data set. For this part, you'll need a zstd dictionary so that we can test out the dictionary-based compression algorithms. More information on cre>
+
+Once the benchmark has finished, all the interesting data will be stored in the PGO subdirectory. Next we'll need to convert the profiling data before it can be used:
+
+```
+/Library/Developer/CommandLineTools/usr/bin/llvm-profdata merge -output=BlockCompression.profdata BlockCompression.profraw
+
+```
+
+Now we need to change the `Makefile` to use the new PGO data:
+
+```
+CFLAGS=-O3 -fPIC -fprofile-instr-use=$(PGO_DIR)/BlockCompression.profdata
 ```
 
 We need to get rid of the previous binaries and objects to re-compile the project. Do the following to delete the `bin` and `obj` subdirectories (but not the `pgo` subdirectory) and rebuild:
