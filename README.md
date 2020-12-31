@@ -86,7 +86,6 @@ Once the benchmark has finished, all the interesting data will be stored in the 
 
 ```
 /Library/Developer/CommandLineTools/usr/bin/llvm-profdata merge -output=BlockCompression.profdata BlockCompression.profraw
-
 ```
 
 Now we need to change the `Makefile` to use the new PGO data:
