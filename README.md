@@ -37,7 +37,6 @@ Make sure the basic Xcode toolchain is installed.
 
 ```
 make -f Makefile.macOS_x86
-
 ```
 
 The library and benchmark tool will be available in the 'bin' output directory.
