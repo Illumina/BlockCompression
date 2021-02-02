@@ -39,7 +39,7 @@ LIBS=-L $(TOP_DIR)/$(BIN_DIR) -Wl,-rpath,$(TOP_DIR)/$(BIN_DIR) -lBlockCompressio
 # define some default flags
 CC=gcc
 CPP=g++
-CFLAGS=-O3 -fPIC
+CFLAGS=-O3 -fPIC -flto=full
 # For profile-guided optimization:
 # -fprofile-instr-generate=$(PGO_DIR)/BlockCompression.profraw
 # /Library/Developer/CommandLineTools/usr/bin/llvm-profdata merge -output=BlockCompression.profdata BlockCompression.profraw 
@@ -47,7 +47,7 @@ CFLAGS=-O3 -fPIC
 CPPFLAGS=-std=c++11
 # Ideally this should be -march=native, but too many of our users didn't have modern AVX support - so I left it at ivybridge. 
 # For true non-AVX support, you could use westmere
-MARCH=-march=native
+MARCH=-march=native -mtune=native
 LDFLAGS=
 LDSHARED=@$(CC) -dynamiclib -install_name $(TOP_DIR)/$(BIN_DIR)/$(SHAREDLIB) -Wl,-map,BlockCompression.map
 
