@@ -39,14 +39,14 @@ LIBS=-L $(TOP_DIR)\$(BIN_DIR) -Wl,-rpath,$(TOP_DIR)\$(BIN_DIR) -lBlockCompressio
 # define some default flags
 CC=gcc
 CPP=g++
-CFLAGS=-O3 -fPIC
+CFLAGS=-O3 -fPIC -flto -flto-partition=one
 # For profile-guided optimization:
 # -fprofile-dir=$(PGO_DIR) -fprofile-generate=$(PGO_DIR)
 # -fprofile-dir=$(PGO_DIR) -fprofile-use=$(PGO_DIR) -fprofile-correction
 CPPFLAGS=-std=c++11
 # Ideally this should be -march=native, but too many of our users didn't have modern AVX support - so I left it at ivybridge. 
 # For true non-AVX support, you could use westmere
-MARCH=-march=ivybridge
+MARCH=-march=ivybridge -mtune=haswell
 LDFLAGS=-Wl,-Bstatic -static-libgcc -Wl,-Bdynamic
 LDSHARED=$(CC) -shared -Wl,-soname,$(SHAREDLIB),--version-script,BlockCompression.map
 

@@ -49,7 +49,7 @@ CPPFLAGS=-std=c++11
 # For true non-AVX support, you could use westmere
 MARCH=-march=native -mtune=native
 LDFLAGS=
-LDSHARED=@$(CC) -dynamiclib -install_name $(TOP_DIR)/$(BIN_DIR)/$(SHAREDLIB) -Wl,-map,BlockCompression.map
+LDSHARED=@$(CC) -dynamiclib -install_name $(TOP_DIR)/$(BIN_DIR)/$(SHAREDLIB)
 
 # define our source files
 BGZF_SOURCES=$(BGZF_DIR)/bgzf.c
