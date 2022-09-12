@@ -1,9 +1,6 @@
 [submodule "libdeflate"]
 	path = libdeflate
 	url = https://github.com/ebiggers/libdeflate.git
-[submodule "zlib-ng"]
-	path = zlib-ng
-	url = https://github.com/zlib-ng/zlib-ng.git
 [submodule "zstd"]
 	path = zstd
 	url = https://github.com/facebook/zstd.git
