@@ -36,7 +36,7 @@ LIBS=-L $(TOP_DIR)/$(BIN_DIR) -Wl,-rpath,$(TOP_DIR)/$(BIN_DIR) -lBlockCompressio
 # define some default flags
 CC=gcc
 CPP=g++
-CFLAGS=-O3
+CFLAGS=-O3 -fPIC -flto=full -flto-partition=one
 # For profile-guided optimization:
 # -fprofile-instr-generate=$(PGO_DIR)/BlockCompression.profraw
 # /Library/Developer/CommandLineTools/usr/bin/llvm-profdata merge -output=BlockCompression.profdata BlockCompression.profraw 
@@ -86,7 +86,7 @@ $(SHAREDLIB_PATH): $(BGZF_OBJS) $(UTILITIES_OBJS) $(LIBDEFLATE_OBJS) $(ZSTD_OBJS
 
 $(RUNBENCHMARK_PATH): $(SHAREDLIB_PATH) $(BENCHMARK_OBJS)
 	@echo "- creating RunBenchmark: $(RUNBENCHMARK_PATH)"
-	@@$(CPP) $(CFLAGS) $(CPPFLAGS) $(MARCH) $(BENCHMARK_INCLUDE) -o $(RUNBENCHMARK_PATH) $(BENCHMARK_OBJS) $(LIBS)
+	@$(CPP) $(CFLAGS) $(CPPFLAGS) $(MARCH) $(BENCHMARK_INCLUDE) -o $(RUNBENCHMARK_PATH) $(BENCHMARK_OBJS) $(LIBS)
 
 $(OBJ_DIR)/%.o : $(BGZF_DIR)/%.c
 	@echo "- compiling $(*F).c (bgzf)"
@@ -114,7 +114,7 @@ $(ZSTD_OBJ_DIR)/%.o : $(ZSTD_DIR)/lib/compress/%.c
 
 $(ZSTD_OBJ_DIR)/%.o : $(ZSTD_DIR)/lib/decompress/%.c
 	@echo "- compiling $(*F).c (zstd)"
-	@@$(CC) $(CFLAGS) $(MARCH) $(ZSTD_INCLUDE) $(ZSTD_DEFINES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(MARCH) $(ZSTD_INCLUDE) $(ZSTD_DEFINES) -c $< -o $@
 
 $(OBJ_DIR)/%.o : $(BENCHMARK_DIR)/%.cpp
 	@echo "- compiling $(*F).cpp (RunBenchmark)"
