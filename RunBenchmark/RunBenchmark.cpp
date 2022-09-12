@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include "ZlibNextGen.h"
+#include "Zlib.h"
 #include "Zstandard.h"
 #include "ZstandardDict.h"
 #include "Runner.h"
@@ -16,9 +16,15 @@ vector<CompressionAlgorithm*> GetCompressionAlgorithms(vector<char> dictBuffer) 
 
 	vector<CompressionAlgorithm*> algorithms;
 
-	algorithms.push_back(new ZlibNextGen(1, BGZF_MAX_BLOCK_SIZE));
-	algorithms.push_back(new ZlibNextGen(5, BGZF_MAX_BLOCK_SIZE));
-	algorithms.push_back(new ZlibNextGen(9, BGZF_MAX_BLOCK_SIZE));
+	algorithms.push_back(new Zlib(1, BGZF_MAX_BLOCK_SIZE));
+	//algorithms.push_back(new Zlib(2, BGZF_MAX_BLOCK_SIZE));
+	//algorithms.push_back(new Zlib(3, BGZF_MAX_BLOCK_SIZE));
+	//algorithms.push_back(new Zlib(4, BGZF_MAX_BLOCK_SIZE));
+	algorithms.push_back(new Zlib(5, BGZF_MAX_BLOCK_SIZE));
+	//algorithms.push_back(new Zlib(6, BGZF_MAX_BLOCK_SIZE));
+	//algorithms.push_back(new Zlib(7, BGZF_MAX_BLOCK_SIZE));
+	//algorithms.push_back(new Zlib(8, BGZF_MAX_BLOCK_SIZE));
+	algorithms.push_back(new Zlib(9, BGZF_MAX_BLOCK_SIZE));
 
 	algorithms.push_back(new Zstandard(1, SA_BLOCK_SIZE));
 	algorithms.push_back(new Zstandard(17, SA_BLOCK_SIZE));

@@ -3,10 +3,10 @@
 #include "CompressionAlgorithm.h"
 #include <sstream>
 
-class ZlibNextGen : public CompressionAlgorithm {
+class Zlib : public CompressionAlgorithm {
 public:
-	ZlibNextGen(int compressionLevel, int blockSize);
-	~ZlibNextGen();
+	Zlib(int compressionLevel, int blockSize);
+	~Zlib();
 	int Compress(const char* source, const int sourceLen, const char* destination, const int destinationLen) const;
 	int Decompress(const char* source, const int sourceLen, const char* destination, const int destinationLen) const;
 	int GetBlockSize(void) const { return _blockSize; }

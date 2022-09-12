@@ -1,6 +1,5 @@
 #include "bgzf.h"
 #include <stdint.h>
-#include <zlib-ng.h>
 #include <memory.h>
 #include <libdeflate.h>
 
@@ -37,9 +36,6 @@ int bgzf_compress(const char* destination, const int destinationLen, const char*
 		return 28;
 	}
 
-	// zlib-ng still has a faster compressor for compression level 1
-	if (compressionLevel < 2 || compressionLevel > 7) return bgzf_compress_zlibng(destination, destinationLen, source, sourceLen, compressionLevel);
-
 	uint8_t* dst = (uint8_t*)destination;
 
 	// NB levels go up to 12 here.
@@ -65,41 +61,6 @@ int bgzf_compress(const char* destination, const int destinationLen, const char*
 
 	// write the footer
 	uint32_t crc = libdeflate_crc32(0, source, sourceLen);
-	packInt32((uint8_t*)&dst[numCompressedBytes - 8], crc);
-	packInt32((uint8_t*)&dst[numCompressedBytes - 4], sourceLen);
-
-	return numCompressedBytes;
-}
-
-int bgzf_compress_zlibng(const char* destination, const int destinationLen, const char* source, const int sourceLen, const int compressionLevel)
-{
-	uint32_t crc;
-	zng_stream zs;
-	uint8_t* dst = (uint8_t*)destination;
-	int numCompressedBytes;
-
-	// compress the body
-	zs.zalloc = NULL;
-	zs.zfree = NULL;
-	zs.msg = NULL;
-	zs.next_in = (Bytef*)source;
-	zs.avail_in = sourceLen;
-	zs.next_out = dst + BLOCK_HEADER_LENGTH;
-	zs.avail_out = destinationLen - BLOCK_HEADER_LENGTH - BLOCK_FOOTER_LENGTH;
-	int ret = zng_deflateInit2(&zs, compressionLevel, Z_DEFLATED, -15, 8, Z_DEFAULT_STRATEGY); // -15 to disable zlib header/footer
-
-	if (ret != Z_OK) return -1;
-	if ((ret = zng_deflate(&zs, Z_FINISH)) != Z_STREAM_END) return -2;
-	if ((ret = zng_deflateEnd(&zs)) != Z_OK) return -3;
-
-	numCompressedBytes = (int)zs.total_out + BLOCK_HEADER_LENGTH + BLOCK_FOOTER_LENGTH;
-
-	// write the header
-	memcpy(dst, g_magic, BLOCK_HEADER_LENGTH); // the last two bytes are a place holder for the length of the block
-	packInt16(&dst[16], numCompressedBytes - 1); // write the compressed length; -1 to fit 2 bytes
-
-	// write the footer
-	crc = zng_crc32(zng_crc32(0L, NULL, 0L), (Bytef*)source, sourceLen);
 	packInt32((uint8_t*)&dst[numCompressedBytes - 8], crc);
 	packInt32((uint8_t*)&dst[numCompressedBytes - 4], sourceLen);
 

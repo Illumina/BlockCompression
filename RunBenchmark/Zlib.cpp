@@ -1,16 +1,16 @@
-#include "ZlibNextGen.h"
+#include "Zlib.h"
 #include "bgzf.h"
 
 using namespace std;
 
-ZlibNextGen::ZlibNextGen(int compressionLevel, int blockSize)
+Zlib::Zlib(int compressionLevel, int blockSize)
 	: _compressionLevel(compressionLevel)
 	, _blockSize(blockSize)
 {}
 
-ZlibNextGen::~ZlibNextGen() {}
+Zlib::~Zlib() {}
 
-int ZlibNextGen::Compress(const char* source, const int sourceLen, const char* destination, const int destinationLen) const {
+int Zlib::Compress(const char* source, const int sourceLen, const char* destination, const int destinationLen) const {
 
 	const int numCompressedBytes = bgzf_compress(destination, destinationLen, source, sourceLen, _compressionLevel);
 
@@ -22,6 +22,6 @@ int ZlibNextGen::Compress(const char* source, const int sourceLen, const char* d
 	return numCompressedBytes;
 }
 
-int ZlibNextGen::Decompress(const char* source, const int sourceLen, const char* destination, const int destinationLen) const {
+int Zlib::Decompress(const char* source, const int sourceLen, const char* destination, const int destinationLen) const {
 	return bgzf_decompress((char*)destination, destinationLen, (char*)source, sourceLen);
 }
