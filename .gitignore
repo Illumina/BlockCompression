@@ -6,3 +6,4 @@ pgo/
 *.dll
 *.dict
 *.vcf
+.DS_Store
