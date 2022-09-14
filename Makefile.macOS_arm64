@@ -26,17 +26,18 @@ ZSTD_DEFINES=-DDEBUGLEVEL=0 -DHAVE_THREAD=0 -DZSTD_LEGACY_SUPPORT=0 -DHAVE_ZLIB=
 LIBDEFLATE_DEFINES=-DDISABLE_GZIP -DDISABLE_ZLIB -D_ANSI_SOURCE
 
 # define our output library
-SHAREDLIB=libBlockCompression.dylib
+SHAREDLIB_STUB=BlockCompression_osx-arm64
+SHAREDLIB=lib$(SHAREDLIB_STUB).dylib
 SHAREDLIB_PATH=$(BIN_DIR)/$(SHAREDLIB)
 
 # define our output program
 RUNBENCHMARK_PATH=$(BIN_DIR)/RunBenchmark
-LIBS=-L $(TOP_DIR)/$(BIN_DIR) -Wl,-rpath,$(TOP_DIR)/$(BIN_DIR) -lBlockCompression
+LIBS=-L $(TOP_DIR)/$(BIN_DIR) -Wl,-rpath,$(TOP_DIR)/$(BIN_DIR) -l$(SHAREDLIB_STUB)
 
 # define some default flags
 CC=gcc
 CPP=g++
-CFLAGS=-O3 -fPIC -flto=full -flto-partition=one
+CFLAGS=-O2 -fPIC -flto=full -flto-partition=one
 # For profile-guided optimization:
 # -fprofile-instr-generate=$(PGO_DIR)/BlockCompression.profraw
 # /Library/Developer/CommandLineTools/usr/bin/llvm-profdata merge -output=BlockCompression.profdata BlockCompression.profraw 
