@@ -37,7 +37,7 @@ LIBS=-L $(TOP_DIR)/$(BIN_DIR) -Wl,-rpath,$(TOP_DIR)/$(BIN_DIR) -l$(SHAREDLIB_STU
 # define some default flags
 CC=gcc
 CPP=g++
-CFLAGS=-O2 -fPIC -flto=full -flto-partition=one
+CFLAGS=-O2 -fPIC -flto=full
 # For profile-guided optimization:
 # -fprofile-instr-generate=$(PGO_DIR)/BlockCompression.profraw
 # /Library/Developer/CommandLineTools/usr/bin/llvm-profdata merge -output=BlockCompression.profdata BlockCompression.profraw 
