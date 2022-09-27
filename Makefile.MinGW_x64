@@ -43,7 +43,8 @@ CFLAGS=-O2 -fPIC -flto -flto-partition=one
 # -fprofile-dir=$(PGO_DIR) -fprofile-use=$(PGO_DIR) -fprofile-correction
 CPPFLAGS=-std=c++11
 # We need the BMI2 instructions for zstd. The earliest platform with those instructions is haswell (2013)
-MARCH=-march=haswell -mtune=haswell
+# Actually using sandybridge at the moment because of one stupid Jenkins Windows build server
+MARCH=-march=sandybridge -mtune=sandybridge
 LDFLAGS=-Wl,-Bstatic -static-libgcc -Wl,-Bdynamic
 LDSHARED=@$(CC) -shared -Wl,-soname,$(SHAREDLIB),--version-script,BlockCompression.map
 
