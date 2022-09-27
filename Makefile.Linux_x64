@@ -37,7 +37,7 @@ LIBS=-L $(TOP_DIR)/$(BIN_DIR) -Wl,-rpath,$(TOP_DIR)/$(BIN_DIR) -l$(SHAREDLIB_STU
 # define some default flags
 CC=gcc
 CPP=g++
-CFLAGS=-O2 -fPIC -flto -flto-partition=one -fprofile-dir=$(PGO_DIR) -fprofile-use=$(PGO_DIR) -fprofile-correction
+CFLAGS=-O2 -fPIC -flto -flto-partition=one
 # For profile-guided optimization:
 # -fprofile-dir=$(PGO_DIR) -fprofile-generate=$(PGO_DIR)
 # -fprofile-dir=$(PGO_DIR) -fprofile-use=$(PGO_DIR) -fprofile-correction
