@@ -1,6 +1,7 @@
 # BlockCompression
 Block compression library used by Nirvana
 
+ Block compression library is licensed under [PolyForm Strict License 1.0.0](https://github.com/Illumina/BlockCompression/blob/main/LICENSE) 
 ## Cloning
 
 This repo uses git submodules so we can be easily update it when newer compression algorithms are released. As such, just remember to use the `--recursive` flag when cloning:
